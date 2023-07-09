@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -19,17 +20,6 @@ namespace gomoru.su
 
         public static IEnumerable<string> EnumeratePropertyNames(this Shader shader) => Enumerable.Range(0, shader.GetPropertyCount()).Select(shader.GetPropertyName);
 
-        public static VRCAvatarDescriptor FindAvatarFromParent(this GameObject obj)
-        {
-            var tr = obj.transform;
-            VRCAvatarDescriptor avatar = null;
-            while (tr != null && (avatar = tr.GetComponent<VRCAvatarDescriptor>()) == null)
-            {
-                tr = tr.parent;
-            }
-            return avatar;
-        }
-
         public static GameObject GetOrAddChild(this GameObject obj, string name)
         {
             var c = obj.transform.EnumerateChildren().FirstOrDefault(x => x.name == name)?.gameObject;
@@ -39,6 +29,15 @@ namespace gomoru.su
                 c.transform.parent = obj.transform;
             }
             return c;
+        }
+
+        public static T GetOrAddComponent<T>(this GameObject obj, Action<T> action = null) where T : Component
+        {
+            var component = obj.GetComponent<T>();
+            if (component == null)
+                component = obj.AddComponent<T>();
+            action?.Invoke(component);
+            return component;
         }
 
         public static string GetRelativePath(this GameObject obj, GameObject root, bool includeRelativeTo = false) => GetRelativePath(obj.transform, root.transform, includeRelativeTo);

@@ -21,9 +21,7 @@ namespace gomoru.su
             return obj;
         }
 
-        public static void ClearLayers(this AnimatorController controller) => controller.layers = Array.Empty<AnimatorControllerLayer>();
-
-        public static void ClearSubAssets(this UnityEngine.Object obj)
+        public static T ClearSubAssets<T>(this T obj) where T : UnityEngine.Object
         {
             var path = AssetDatabase.GetAssetPath(obj);
             if (path != null)
@@ -36,6 +34,7 @@ namespace gomoru.su
                     }
                 }
             }
+            return obj;
         }
 
         public static T HideInHierarchy<T>(this T obj) where T : UnityEngine.Object

@@ -1,6 +1,8 @@
 {
     "name": "gomoru.su.utilities.editor",
-    "references": [],
+    "references": [
+        "GUID:5d256276ac6fdae468e7ad32ac431d8d"
+    ],
     "includePlatforms": [
         "Editor"
     ],
